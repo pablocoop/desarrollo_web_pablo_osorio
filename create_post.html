@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Agregar aviso - PetAdopt</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="titulo">
+      <h1>Agregar aviso de adopción</h1>
+    </div>
+    <!-- Bloque info de validación -->
+    <div id="validation-box" hidden> 
+      <h2 id="validation-message"></h2>
+      <ul id="validation-list"></ul>
+    </div>
+    <form id="form-aviso">
+    
+      <!-- Sección 1: ¿Dónde? -->
+      <div class="seccion-form">
+        <h2>¿Dónde se encuentra la mascota?</h2>
+
+        <label for="region">Región:</label>
+        <select id="region" name="region">
+          <option value="">Seleccione una región</option>
+        </select>
+
+        <label for="comuna">Comuna:</label>
+        <select id="comuna" name="comuna" disabled>
+          <option value="">Seleccione una comuna</option>
+        </select>
+
+        <label for="sector">Sector (opcional):</label>
+        <input type="text" id="sector" name="sector" maxlength="100" />
+      </div>
+
+      <!-- Sección 2: ¿Contacto? -->
+      <div class="seccion-form">
+        <h2>¿Cómo te contactan?</h2>
+
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" />
+
+        <label for="email">Correo electrónico:</label>
+        <input type="email" id="email" name="email" />
+
+        <label for="telefono">Número de celular (opcional):</label>
+        <input type="tel" id="telefono" name="telefono" placeholder="+569.12345678" />
+
+        <label for="contactar_por">Contactar por:</label>
+        <select id="contactar_por" name="contactar_por">
+          <option value="">Selecciona una red social</option>
+          <option value="whatsapp">WhatsApp</option>
+          <option value="telegram">Telegram</option>
+          <option value="x">X</option>
+          <option value="instagram">Instagram</option>
+          <option value="tiktok">TikTok</option>
+          <option value="otra">Otra</option>
+        </select>
+
+        <input type="text" id="contacto_id" name="contacto_id" 
+          placeholder="ingresar ID o URL" maxlength="50" 
+          style="display: none;" />
+      </div>
+
+      <!-- Sección 3: ¿Qué mascota? -->
+      <div class="seccion-form">
+        <h2>Información de la mascota</h2>
+
+        <label for="especie">Tipo (Especie):</label>
+        <select id="especie" name="especie">
+          <option value="">Seleccione</option>
+          <option value="perro">Perro</option>
+          <option value="gato">Gato</option>
+          <option value="otro">Otro</option>
+        </select>
+
+        <label for="cantidad">Cantidad:</label>
+        <input type="number" id="cantidad" name="cantidad" min="1" />
+
+        <label for="edad">Edad:</label>
+        <input type="number" id="edad" name="edad" min="1" />
+
+        <label for="unidad_edad">Unidad de medida:</label>
+        <select id="unidad_edad" name="unidad_edad">
+          <option value="">Seleccione</option>
+          <option value="meses">Meses</option>
+          <option value="años">Años</option>
+        </select>
+
+        <label for="fecha_entrega">Fecha disponible para entrega:</label>
+        <input type="datetime-local" id="fecha_entrega" name="fecha_entrega" />
+
+        <label for="descripcion">Descripción (opcional):</label>
+        <textarea id="descripcion" name="descripcion" rows="4" cols="50"></textarea>
+
+        <label>Fotos de la mascota:</label>
+        <div id="photos-section">
+          <input type="file" name="fotos" accept="image/*">
+        </div>
+        <button type="button" id="agregar-foto-button">Agregar otra foto</button>
+      </div>
+
+      <!-- Botón final -->
+      <div class="botones">
+        <button type="button" onclick="location.href='index.html'">Volver a la portada</button>
+        <button type="button" id="enviar-form">Agregar este aviso de adopción</button>
+      </div>
+    </form>
+    
+  </div>
+  <script src="js/region_comuna.js"></script>
+  <script src="js/validation.js"></script>
+</body>
+</html>
