@@ -93,3 +93,86 @@ footer{
     padding: 10px;
     color: #777;
 }
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.seccion-form {
+  background-color: #f4fbff;
+  padding: 20px;
+  border: 1px solid #b9e2f1;
+  border-radius: 8px;
+}
+
+.seccion-form h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.botones {
+  text-align: center;
+}
+
+.botones button {
+  padding: 12px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.botones button:hover {
+  background-color: #45a049;
+}
+#val-box {
+  background-color: #ffdddd;
+  border-left: 6px solid #f44336;
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 6px;
+}
+
+#val-box h2 {
+  margin-top: 0;
+  font-size: 18px;
+}
+
+#val-list {
+  padding-left: 20px;
+  list-style-type: disc;
+  color: #a94442;
+}
+
+.fila-aviso {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.fila-aviso:hover {
+  background-color: #eefcf3;
+}
