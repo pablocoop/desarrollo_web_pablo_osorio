@@ -84,7 +84,7 @@ td {
 }
 
 img {
-  width: 100px;
+  width: 250px;
   height: auto;
   border-radius: 8px;
 }
@@ -93,7 +93,6 @@ footer{
     padding: 10px;
     color: #777;
 }
-
 form {
   display: flex;
   flex-direction: column;
@@ -175,4 +174,72 @@ textarea {
 
 .fila-aviso:hover {
   background-color: #eefcf3;
+}
+
+/* Galería de fotos - estilos mínimos */
+.fotos-container {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.foto-thumbnail {
+  width: 320px;
+  height: 240px;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.foto-thumbnail:hover {
+  transform: scale(1.05);
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  width: 800px;
+  height: 600px;
+  object-fit: cover;
+}
+
+.cerrar {
+  position: absolute;
+  top: 15px;
+  right: 30px;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+#btn-cerrar {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+/* agregar estilos para la sección de estadísticas */
+.graficos {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
+
+.graficos img {
+  width: 80%;
+  max-width: 600px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
 }
