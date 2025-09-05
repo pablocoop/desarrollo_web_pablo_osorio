@@ -2,8 +2,10 @@
 const MAX_FOTOS = 5;
 const photoContainer = document.getElementById("photos-section");
 const addPhotoButton = document.getElementById("agregar-foto-button");
-
-
+// Variables para envío de formulario
+let sendButton = document.getElementById("enviar-form");
+// Variable para contacto por red social dinámico 
+let contactarPorSelector = document.getElementById("contactar_por");
 // Diccionario de mensajes de validación (Al estilo Laravel)
 let validationErrors = {
   "Región": "Región: este campo es obligatorio",
@@ -21,67 +23,63 @@ let validationErrors = {
   "Fotos": "Fotos: 1 a 5 imágenes requeridas"
 };
 
-
 //  Funciones de validación 
-
+// Función genérica para validar texto con longitud mínima y máxima
 const validateTextMinMax = (text, min, max) => {
   if (!text) return false;
   const length = text.trim().length;
   return length >= min && length <= max;
 };
-
+// Función para validar formato de email
 const validateEmail = (email) => {
   if (!email) return false;
-  if (email.length > 100) return false;
-  let re = /^[\w.]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-  return re.test(email);
+  let lengthValid = email.length <= 100;
+  if (!lengthValid) return false; // Largo máximo 100
+  let re = /^[\w.]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/; // De aux 3
+  let formatValid = re.test(email);
+  // devolvemos la lógica AND de las validaciones.
+  return lengthValid && formatValid;
 };
-
-const validatePhone = (phone) => {
-  if (!phone) return true; // opcional
-  let re = /^\+\d{3}\.\d{8}$/; // formato +569.12345678
-  return re.test(phone);
+const validatePhone = (phoneNumber) => {
+  if (!phoneNumber) return true; // opcional
+  let re = /^\+\d{3}\.\d{8}$/; // R.E. para formato +569.12345678
+  return re.test(phoneNumber);
 };
-
-const validateSelect = (value) => {
-  return value !== "";
+const validateEmpty = (value) => {
+  return value == "";
 };
-
 const validateNumberMin = (value, min) => {
   let number = Number(value);
   return !isNaN(number) && Number.isInteger(number) && number >= min;
 };
-
-const validateDateTimeAfterNowPlusHours = (datetimeStr, hours = 3) => {
+const validateDateTime = (datetimeStr, hours = 3) => {
   if (!datetimeStr) return false;
   let inputDate = new Date(datetimeStr);
   let now = new Date();
   now.setHours(now.getHours() + hours);
   return inputDate >= now;
 };
-
 const validateMultipleFileInputs = (form, name, max = 5) => {
+  // Queremos encontrar los inputs con name dado y contar archivos válidos
   let inputs = form.querySelectorAll(`input[name="${name}"]`);
   let total = 0;
   let typeValid = true;
 
   inputs.forEach(input => {
     let files = input.files;
-    if (files.length > 0) {
-      total += files.length;
-      for (let file of files) {
-        if (!file.type.startsWith("image/")) {
+    if (files.length > 0) { // Si hay archivos seleccionados
+      total += files.length; // Contamos todos los archivos
+      for (let file of files) { 
+        if (!file.type.startsWith("image/")) {  // Solo formatos de imagen
           typeValid = false;
         }
       }
     }
   });
-
+  // Devolvemos la lógica AND de las validaciones.
   return total >= 1 && total <= max && typeValid;
 };
-
-//  Validación del form
-
+//  Validación del formulario
 const validateForm = () => {
   let form = document.getElementById("form-aviso");
   // Obtener valores
@@ -110,46 +108,46 @@ const validateForm = () => {
   };
 
   // Lógica de validación
-  if (!validateSelect(region)) {
+  if (validateEmpty(region)) {
     setInvalidInput("Región");
   }
-  if (!validateSelect(comuna)) {
+  if (validateEmpty(comuna)) {
     setInvalidInput("Comuna");
   }
-  if (sector && sector.length > 100) {
+  if (sector && sector.length > 100) { // Opcional, pero si hay, máximo 100 caracteres
     setInvalidInput("Sector");
   }
 
-  if (!validateTextMinMax(nombre, 3, 200)) {
+  if (!validateTextMinMax(nombre, 3, 200)) { // Obligatorio, 3 a 200 caracteres
     setInvalidInput("Nombre");
   }
-  if (!validateEmail(email)) {
+  if (!validateEmail(email)) { // obligatorio, debe cumplir con formato de dirección de email.
     setInvalidInput("Correo");
   }
-  if (!validatePhone(telefono)) {
+  if (!validatePhone(telefono)) { // Opcional, pero si hay, debe cumplir con formato +569.12345678
     setInvalidInput("Teléfono");
   }
-  
   // Validación de contacto por red social
-  if (contactarPor && !validateTextMinMax(contactoId, 4, 50)) {
+  if (contactarPor && !validateTextMinMax(contactoId, 4, 50)) { // Opcional
     setInvalidInput("Contactar por");
   }
-
-  if (!validateSelect(tipo)) {
+  if (validateEmpty(tipo)) {  // obligatorio seleccionar una opción
     setInvalidInput("Tipo");
   }
-  if (!validateNumberMin(cantidad, 1)) {
+  if (!validateNumberMin(cantidad, 1)) { // obligatorio, mínimo 1
     setInvalidInput("Cantidad");
   }
-  if (!validateNumberMin(edad, 1)) {
+  if (!validateNumberMin(edad, 1)) { // obligatorio, mínimo 1
     setInvalidInput("Edad");
   }
-  if (!validateSelect(unidad)) {
+  if (validateEmpty(unidad)) { // obligatorio
     setInvalidInput("Unidad edad");
   }
-  if (!validateDateTimeAfterNowPlusHours(fecha)) {
+  if (!validateDateTime(fecha, 3)) { // obligatorio, al menos 3 horas en el futuro
     setInvalidInput("Fecha entrega");
   }
+  // No validamos nada en la descripción, es opcional
+  // Validación de fotos, MAX_FOTOS = 5
   if (!validateMultipleFileInputs(form, "fotos", MAX_FOTOS)) {
     setInvalidInput("Fotos");
   }
@@ -259,7 +257,7 @@ const validateForm = () => {
 
 // Función para contar inputs actuales de tipo "file"
 const contarFotosActuales = () => {
-  return photoContainer.querySelectorAll('input[type="file"]').length;
+  return photoContainer.getElementsByTagName('input').length;
 };
 
 // Función para crear un nuevo input de foto
@@ -267,7 +265,7 @@ const crearInputFoto = () => {
   const input = document.createElement("input");
   input.type = "file";
   input.name = "fotos";
-  input.accept = "image/*";
+  input.accept = "image/*"; // Aceptar solo formatos de imagen
   return input;
 };
 
@@ -292,27 +290,11 @@ const actualizarBotonAgregarFoto = () => {
   }
 };
 
-
-
 // Función para manejar el proceso completo de agregar foto
 const manejarAgregarFoto = () => {
   agregarNuevaFoto();
   actualizarBotonAgregarFoto();
 };
-
-// Evento para agregar foto
-addPhotoButton.addEventListener("click", manejarAgregarFoto);
-
-// Botón principal
-
-let sendButton = document.getElementById("enviar-form");
-sendButton.addEventListener("click", function() {
-  // Desplazar automáticamente al inicio del formulario
-  const form = document.getElementById("form-aviso");
-  form.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  // Ejecutar la validación
-  validateForm();
-});
 
 //  Lógica simple de contacto por red social 
 function selectContactoInput() {
@@ -326,9 +308,6 @@ function selectContactoInput() {
     inputContacto.value = "";
   }
 }
-
-let contactarPorSelector = document.getElementById("contactar_por");
-contactarPorSelector.addEventListener("change", selectContactoInput);
 
 //  Establecer fecha por defecto (fecha actual + 3 horas) 
 function setDefaultDateTime() {
@@ -346,6 +325,25 @@ function setDefaultDateTime() {
   const defaultDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
   fechaEntregaInput.value = defaultDateTime;
 }
+
+// Función para desplazar al formulario suavemente
+const scrollToForm = () => {
+  const form = document.getElementById("form-aviso");
+  form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+};
+
+// Función para manejar el envío del formulario
+const controlarEnvioForm = () => {
+  scrollToForm();
+  validateForm();
+};
+
+// Event listeners
+sendButton.addEventListener("click", controlarEnvioForm);
+// Evento para agregar foto
+addPhotoButton.addEventListener("click", manejarAgregarFoto);
+// Evento para desplegar campo de contacto por red social
+contactarPorSelector.addEventListener("change", selectContactoInput);
 
 // Llamar la función al cargar la página
 setDefaultDateTime();
