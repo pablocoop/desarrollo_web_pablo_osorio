@@ -1,3 +1,9 @@
+// Implementación de código para agregar fotos dinámicamente
+const MAX_FOTOS = 5;
+const photoContainer = document.getElementById("photos-section");
+const addPhotoButton = document.getElementById("agregar-foto-button");
+
+
 // Diccionario de mensajes de validación (Al estilo Laravel)
 let validationErrors = {
   "Región": "Región: este campo es obligatorio",
@@ -250,10 +256,6 @@ const validateForm = () => {
   };
 };
 
-// Implementación de código para agregar fotos dinámicamente
-const MAX_FOTOS = 5;
-const photoContainer = document.getElementById("photos-section");
-const addPhotoButton = document.getElementById("agregar-foto-button");
 
 // Función para contar inputs actuales de tipo "file"
 const contarFotosActuales = () => {
@@ -269,25 +271,42 @@ const crearInputFoto = () => {
   return input;
 };
 
-// Evento para agregar foto
-addPhotoButton.addEventListener("click", () => {
+// Función para agregar una nueva foto
+const agregarNuevaFoto = () => {
   const cantidadActual = contarFotosActuales();
-  // Verificamos que no se exceda el máximo
   if (cantidadActual < MAX_FOTOS) {
     const nuevoInput = crearInputFoto();
     photoContainer.appendChild(nuevoInput);
   }
-  // Si ya llegamos al máximo, deshabilitamos el botón
-  if (contarFotosActuales() >= MAX_FOTOS) {
+};
+
+// Función para actualizar el estado del botón de agregar foto
+const actualizarBotonAgregarFoto = () => {
+  const cantidadActual = contarFotosActuales();
+  if (cantidadActual >= MAX_FOTOS) {
     addPhotoButton.disabled = true;
     addPhotoButton.innerText = "Máximo 5 fotos alcanzado";
+  } else {
+    addPhotoButton.disabled = false;
+    addPhotoButton.innerText = "Agregar otra foto";
   }
-});
+};
+
+
+
+// Función para manejar el proceso completo de agregar foto
+const manejarAgregarFoto = () => {
+  agregarNuevaFoto();
+  actualizarBotonAgregarFoto();
+};
+
+// Evento para agregar foto
+addPhotoButton.addEventListener("click", manejarAgregarFoto);
 
 // Botón principal
 
-let submitBtn = document.getElementById("enviar-form");
-submitBtn.addEventListener("click", function() {
+let sendButton = document.getElementById("enviar-form");
+sendButton.addEventListener("click", function() {
   // Desplazar automáticamente al inicio del formulario
   const form = document.getElementById("form-aviso");
   form.scrollIntoView({ behavior: 'smooth', block: 'start' });
