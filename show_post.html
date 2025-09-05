@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Detalle del aviso - PetAdopt</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Detalle del aviso de adopción 🐾</h1>
+    <p><strong>Fecha publicación:</strong> 2025-08-18 12:00</p>
+    <p><strong>Comuna:</strong> Santiago</p>
+    <p><strong>Sector:</strong> Beauchef 850, terraza</p>
+    <p><strong>Cantidad:</strong> 1</p>
+    <p><strong>Tipo:</strong> Gato</p>
+    <p><strong>Edad:</strong> 2 meses</p>
+    <p><strong>Contacto:</strong> Camila Soto</p>
+    
+    <div class="fotos-galeria">
+      <h3>Fotos de la mascota</h3>
+      <div class="fotos-container">
+        <img src="assets/gato1.jpg" alt="Foto 1 de la mascota" class="foto-thumbnail" onclick="abrirFoto(this)">
+        <img src="assets/gato2.jpg" alt="Foto 2 de la mascota" class="foto-thumbnail" onclick="abrirFoto(this)">
+        <img src="assets/gato3.jpg" alt="Foto 3 de la mascota" class="foto-thumbnail" onclick="abrirFoto(this)">
+      </div>
+    </div>
+
+    <!-- Modal para mostrar foto ampliada -->
+    <div id="modal-foto" class="modal" onclick="cerrarFoto()">
+      <span class="cerrar" onclick="cerrarFoto()">&times;</span>
+      <img id="foto-ampliada" class="modal-content">
+      <button id="btn-cerrar" onclick="cerrarFoto()">Cerrar</button>
+    </div>
+    
+    <div class="botones">
+      <button onclick="location.href='list_post.html'">Volver al listado</button>
+      <button onclick="location.href='index.html'">Volver a la portada</button>
+    </div>
+  </div>
+  <script src="js/photo.js"></script>
+</body>
+</html>
