@@ -90,9 +90,10 @@ def agregar():
 
 @app.route('/listado')
 def listado():
-    # Orden descendente por fecha
-    avisos = AvisoAdopcion.query.order_by(AvisoAdopcion.fecha_ingreso.desc()).all()
-    return render_template('list_post.html', avisos=avisos)
+    page = request.args.get('page', 1, type=int)
+    per_page = 5
+    avisos = AvisoAdopcion.query.order_by(AvisoAdopcion.fecha_ingreso.desc()).paginate(page=page, per_page=per_page)
+    return render_template("list_post.html", avisos=avisos)
 @app.route('/aviso/<int:aviso_id>')
 def mostrar_aviso(aviso_id):
     aviso = AvisoAdopcion.query.get_or_404(aviso_id)

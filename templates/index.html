@@ -55,7 +55,7 @@
             <td>{{ aviso.comuna.nombre }}</td>
             <td>{{ aviso.sector or '-' }}</td>
             <td>
-              {{ aviso.cantidad }} {{ aviso.tipo }}<br>
+              {{ aviso.cantidad }} {{ aviso.tipo }}{{ 's' if aviso.cantidad > 1 else '' }}<br>
               {{ aviso.edad }} {{ 'años' if aviso.unidad_medida == 'a' else 'meses' }}
             </td>
             <td>

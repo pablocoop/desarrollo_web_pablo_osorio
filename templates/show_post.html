@@ -10,6 +10,7 @@
     <h1>Detalle del aviso de adopción 🐾</h1>
     <p><strong>Fecha publicación:</strong> {{ aviso.fecha_ingreso.strftime("%Y-%m-%d %H:%M") }}</p>
     <p><strong>Fecha entrega:</strong> {{ aviso.fecha_entrega.strftime("%Y-%m-%d %H:%M") }}</p>
+    <p><strong>Región:</strong> {{ aviso.comuna.region.nombre }}</p>
     <p><strong>Comuna:</strong> {{ aviso.comuna.nombre }}</p>
     <p><strong>Sector:</strong> {{ aviso.sector or '-' }}</p>
     <p><strong>Cantidad:</strong> {{ aviso.cantidad }}</p>
