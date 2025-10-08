@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}PetAdopt{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>PetAdopt - Adopta tu nuevo amor 🐾</h1>
+      <nav>
+        <button onclick="location.href='{{ url_for('index') }}'">Inicio</button>
+        <button onclick="location.href='{{ url_for('agregar') }}'">Agregar aviso</button>
+        <button onclick="location.href='{{ url_for('listado') }}'">Listado</button>
+        <button onclick="location.href='{{ url_for('estadisticas') }}'">Estadísticas</button>
+      </nav>
+    </header>
+
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+      <p>&copy; 2025 PetAdopt - Todos los derechos reservados</p>
+    </footer>
+  </div>
+</body>
+</html>

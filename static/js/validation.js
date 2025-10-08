@@ -172,8 +172,8 @@ const validateForm = () => {
     // Hacemos visible el mensaje de validación
     validationBox.hidden = false;
   } else { // Éxito
-    // Ocultamos el formulario y mostramos mensaje de confirmación
-    form.style.display = "none";
+    // Ya no ocultamos el formulario y sí mostramos mensaje de confirmación
+    // form.style.display = "none";
     validationMessageElem.innerText = "¿Está seguro que desea agregar este aviso de adopción?";
     validationListElem.textContent = "";
 
@@ -201,7 +201,11 @@ const validateForm = () => {
     // Ahora el listener del botón de confirmación
     confirmButton.addEventListener("click", () => {
       // Como no hay backend, solo mostramos mensaje de éxito
-      validationMessageElem.innerText = "Hemos recibido la información de adopción, muchas gracias y suerte!";
+      const form = document.getElementById("form-aviso");
+      validationMessageElem.innerText = "Enviando datos al servidor...";
+      validationListElem.textContent = "";
+      validationBox.hidden = false;
+      form.submit(); // ← envía el formulario real al backend Flask
       validationListElem.textContent = "";
       const volver = document.createElement("button");
       volver.type = "button";
@@ -221,7 +225,7 @@ const validateForm = () => {
         this.style.backgroundColor = "#4CAF50";
       });
       volver.addEventListener("click", () => {
-        location.href = "index.html";
+        location.href = homeUrl; // homeUrl está definido 
       });
       validationListElem.appendChild(volver);
     });
@@ -347,3 +351,28 @@ contactarPorSelector.addEventListener("change", selectContactoInput);
 
 // Llamar la función al cargar la página
 setDefaultDateTime();
+
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("form-aviso");
+  const enviarBtn = document.getElementById("enviar-form");
+
+  enviarBtn.addEventListener("click", (event) => {
+    event.preventDefault(); // Evita el submit inmediato
+
+    // Ejecutar validaciones front-end
+    const isValid = validateForm(); 
+
+    if (!isValid) {
+      // Muestra mensajes de error
+      mostrarErrores();
+      return; // No continúa al backend
+    }
+
+    // Mostrar confirmación antes de enviar
+    const confirmar = confirm("¿Está seguro que desea agregar este aviso de adopción?");
+    if (!confirmar) return;
+
+    // Si todo está bien, recién se envía el formulario
+    form.submit();
+  });
+});

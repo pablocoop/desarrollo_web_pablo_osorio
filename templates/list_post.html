@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Listado de Adopciones - PetAdopt</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+  <div class="container">
+    <div class="titulo">
+      <h1>Listado de avisos de adopción 🐾</h1>
+    </div>
+
+    <div class="tabla">
+      <table>
+        <thead>
+          <tr>
+            <th>Fecha publicación</th>
+            <th>Fecha entrega</th>
+            <th>Comuna</th>
+            <th>Sector</th>
+            <th>Cantidad / Tipo / Edad</th>
+            <th>Contacto</th>
+            <th>Total fotos</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for aviso in avisos %}
+          <tr class="fila-aviso"
+              onclick="location.href='{{ url_for('mostrar_aviso', aviso_id=aviso.id) }}'">
+            <td>{{ aviso.fecha_ingreso.strftime("%Y-%m-%d %H:%M") }}</td>
+            <td>{{ aviso.fecha_entrega.strftime("%Y-%m-%d %H:%M") }}</td>
+            <td>{{ aviso.comuna.nombre }}</td>
+            <td>{{ aviso.sector or '-' }}</td>
+            <td>{{ aviso.cantidad }} {{ aviso.tipo }}<br>{{ aviso.edad }} {{ 'años' if aviso.unidad_medida == 'a' else 'meses' }}</td>
+            <td>{{ aviso.nombre }}</td>
+            <td>{{ aviso.fotos|length }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="botones"> 
+      <button type="button" onclick="location.href='{{ url_for('index') }}'">Volver a la portada</button>
+    </div>
+    
+  </div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Detalle del aviso - PetAdopt</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Detalle del aviso de adopción 🐾</h1>
+    <p><strong>Fecha publicación:</strong> {{ aviso.fecha_ingreso.strftime("%Y-%m-%d %H:%M") }}</p>
+    <p><strong>Fecha entrega:</strong> {{ aviso.fecha_entrega.strftime("%Y-%m-%d %H:%M") }}</p>
+    <p><strong>Comuna:</strong> {{ aviso.comuna.nombre }}</p>
+    <p><strong>Sector:</strong> {{ aviso.sector or '-' }}</p>
+    <p><strong>Cantidad:</strong> {{ aviso.cantidad }}</p>
+    <p><strong>Tipo:</strong> {{ aviso.tipo.capitalize() }}</p>
+    <p><strong>Edad:</strong> {{ aviso.edad }} {{ 'años' if aviso.unidad_medida == 'a' else 'meses' }}</p>
+    <p><strong>Nombre contacto:</strong> {{ aviso.nombre }}</p>
+    <p><strong>Correo:</strong> {{ aviso.email }}</p>
+    {% if aviso.celular %}
+      <p><strong>Celular:</strong> {{ aviso.celular }}</p>
+    {% endif %}
+    {% if aviso.contactos %}
+      {% for c in aviso.contactos %}
+        <p><strong>{{ c.nombre|capitalize }}:</strong> {{ c.identificador }}</p>
+      {% endfor %}
+    {% endif %}
+    
+    <div class="fotos-galeria">
+      <h3>Fotos de la mascota</h3>
+      <div class="fotos-container">
+        {% for foto in aviso.fotos %}
+          <img src="{{ url_for('static', filename='uploads/' + foto.nombre_archivo) }}"
+               alt="Foto {{ loop.index }} de la mascota"
+               class="foto-thumbnail"
+               onclick="abrirFoto(this)">
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Modal para mostrar foto ampliada -->
+    <div id="modal-foto" class="modal" onclick="cerrarFoto()">
+      <span class="cerrar" onclick="cerrarFoto()">&times;</span>
+      <img id="foto-ampliada" class="modal-content" alt="Foto ampliada de la mascota">
+      <button id="btn-cerrar" onclick="cerrarFoto()">Cerrar</button>
+    </div>
+    
+    <div class="botones">
+      <button onclick="location.href='{{ url_for('listado') }}'">Volver al listado</button>
+      <button onclick="location.href='{{ url_for('index') }}'">Volver a la portada</button>
+    </div>
+  </div>
+  <script src="{{ url_for('static', filename='js/photo.js') }}"></script>
+</body>
+</html>
