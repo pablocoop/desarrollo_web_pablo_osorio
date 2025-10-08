@@ -18,7 +18,7 @@ def validate_sector(sector: str) -> bool:
     return not sector or len(sector.strip()) <= 100
 
 def validate_tipo(tipo: str) -> bool:
-    return tipo in ['perro', 'gato', 'otro']
+    return tipo in ['perro', 'gato']
 
 def validate_cantidad(cantidad: str) -> bool:
     return cantidad.isdigit() and int(cantidad) >= 1
@@ -27,7 +27,7 @@ def validate_edad(edad: str) -> bool:
     return edad.isdigit() and int(edad) >= 1
 
 def validate_unidad(unidad: str) -> bool:
-    return unidad in ['años', 'meses']
+    return unidad in ['a', 'm', 'años', 'meses']
 
 def validate_fecha_entrega(fecha_str: str) -> bool:
     if not fecha_str:
@@ -44,7 +44,7 @@ def validate_fotos(files) -> bool:
 def validate_region_comuna(region, comuna) -> bool:
     return bool(region and comuna)
 
-# === Validación global ===
+# Validación global
 def validate_aviso_form(data, files):
     errores = []
 
@@ -59,7 +59,7 @@ def validate_aviso_form(data, files):
     if not validate_telefono(data.get('telefono')):
         errores.append("Teléfono: debe tener formato +569.12345678.")
     if not validate_tipo(data.get('especie')):
-        errores.append("Tipo: obligatorio (perro, gato u otro).")
+        errores.append("Tipo: obligatorio (perro o gato).")
     if not validate_cantidad(data.get('cantidad')):
         errores.append("Cantidad: mínimo 1.")
     if not validate_edad(data.get('edad')):

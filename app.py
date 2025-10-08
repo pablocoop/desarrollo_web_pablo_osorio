@@ -25,22 +25,18 @@ def agregar():
     if request.method == 'POST':
         data = request.form
         files = request.files.getlist('fotos')
-
         # Validar backend
         valido, errores = validate_aviso_form(data, files)
         if not valido:
             return render_template('create_post.html', errores=errores, form=data)
-
         # Validar comuna
         comuna_nombre = data.get('comuna', '').strip()
         comuna = Comuna.query.filter_by(nombre=comuna_nombre).first()
         if comuna is None:
             return render_template('create_post.html', errores=["Comuna inválida."], form=data)
-
         # Mapear unidad de medida ('años' → 'a', 'meses' → 'm')
         unidad_map = {'años': 'a', 'meses': 'm'}
         unidad_bd = unidad_map.get(data.get('unidad_edad'))
-
         aviso = AvisoAdopcion(
             fecha_ingreso=datetime.now(),
             comuna_id=comuna.id,
@@ -67,7 +63,6 @@ def agregar():
                 identificador=ident,
                 actividad_id=aviso.id
             ))
-
         # Fotos
         os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
         for f in files:
@@ -82,7 +77,7 @@ def agregar():
                 ))
 
         db.session.commit()
-        flash("✅ Aviso agregado correctamente.", "success")
+        flash("Aviso agregado correctamente.", "success")
         return redirect(url_for('index'))
 
     # GET → mostrar formulario vacío

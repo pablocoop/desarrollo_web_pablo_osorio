@@ -9,6 +9,8 @@ Este repositorio contiene los archivos necesarios para la implementación de una
 
 Con respecto a decisiones de diseño y funcionalidades implementadas, no hay mucho que destacar, ya que se ha seguido fielmente el enunciado de la tarea. Sin embargo, se han realizado algunas mejoras menores en la estructura del código y en la organización de los archivos para facilitar su mantenimiento y comprensión. Por lo mismo es que el código de Javascript se encuentra dividido en 3 archivos distintos, cada uno con una función específica y escrito de manera modular.
 
+Se utilizó config.py para gestionar la configuración de la aplicación, incluyendo la conexión a la base de datos y otras variables de entorno. Además, se implementaron validaciones en el backend para asegurar que los datos ingresados por los usuarios sean correctos y evitar posibles errores o inconsistencias en la base de datos.
+
 ## Configuración e importación de la base de datos tarea2
 
 ### Paso 1: Iniciar sesión en MySQL como usuario root
