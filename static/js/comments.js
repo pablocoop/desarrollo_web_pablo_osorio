@@ -3,7 +3,6 @@ function initComments(avisoId) {
   const form = document.getElementById("comentarioForm");
   const erroresBox = document.getElementById("errores-comentario");
   const exitoBox = document.getElementById("mensaje-exito");
-  // Render seguro de comentarios (sin innerHTML)
   function renderComentarios(comentarios) {
     lista.innerHTML = "";
 
