@@ -1,12 +1,13 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import text
+from sqlalchemy import text, func
 from config import Config
 from datetime import datetime
 import os
 from models import db, AvisoAdopcion, ContactarPor, Comuna, Foto   # Importamos la instancia de db desde models.py
 from utils.validations import validate_aviso_form
 from werkzeug.utils import secure_filename
+import calendar
 
 UPLOAD_FOLDER = 'static/uploads'
 
@@ -93,9 +94,61 @@ def listado():
 def mostrar_aviso(aviso_id):
     aviso = AvisoAdopcion.query.get_or_404(aviso_id)
     return render_template('show_post.html', aviso=aviso)
+# Estadísticas
 @app.route('/estadisticas')
 def estadisticas():
     return render_template('stats.html')
+# Cantidad de avisos por día 
+@app.route('/api/avisos_por_dia')
+def avisos_por_dia():
+    resultados = (
+        db.session.query(
+            func.date(AvisoAdopcion.fecha_ingreso).label('dia'),
+            func.count(AvisoAdopcion.id)
+        )
+        .group_by(func.date(AvisoAdopcion.fecha_ingreso))
+        .order_by(func.date(AvisoAdopcion.fecha_ingreso))
+        .all()
+    )
+    data = [{'dia': str(r[0]), 'cantidad': r[1]} for r in resultados]
+    return jsonify(data)
+# Total por tipo de mascota 
+@app.route('/api/avisos_por_tipo')
+def avisos_por_tipo():
+    resultados = (
+        db.session.query(
+            AvisoAdopcion.tipo,
+            func.count(AvisoAdopcion.id)
+        )
+        .group_by(AvisoAdopcion.tipo)
+        .all()
+    )
+    data = [{'tipo': r[0], 'cantidad': r[1]} for r in resultados]
+    return jsonify(data)
+# Avisos por mes y tipo 
+@app.route('/api/avisos_por_mes_tipo')
+def avisos_por_mes_tipo():
+    resultados = (
+        db.session.query(
+            func.month(AvisoAdopcion.fecha_ingreso).label('mes'),
+            AvisoAdopcion.tipo,
+            func.count(AvisoAdopcion.id)
+        )
+        .group_by(func.month(AvisoAdopcion.fecha_ingreso), AvisoAdopcion.tipo)
+        .order_by(func.month(AvisoAdopcion.fecha_ingreso))
+        .all()
+    )
+
+    # Construir estructura mes → {gato, perro}
+    data = {}
+    for mes, tipo, cantidad in resultados:
+        mes_nombre = calendar.month_name[mes]
+        if mes_nombre not in data:
+            data[mes_nombre] = {'gato': 0, 'perro': 0}
+        data[mes_nombre][tipo] = cantidad
+
+    return jsonify(data)
+
 
 
 if __name__ == '__main__':
