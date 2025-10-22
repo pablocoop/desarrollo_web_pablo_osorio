@@ -4,22 +4,27 @@
   <meta charset="UTF-8">
   <title>Estadísticas - PetAdopt</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 </head>
 <body>
   <div class="container">
     <div class="titulo">
       <h1>Estadísticas de adopciones</h1>
     </div>
-
     <div class="graficos">
-      <img src="static/assets/grafico_lineas_avisos_por_dia.png" alt="Total mascotas en adopción">
-      <img src="static/assets/grafico_torta_tipos.png" alt="Distribución perros vs gatos">
-      <img src="static/assets/grafico_barras_por_mes.png" alt="Publicaciones por comuna">
+      <div id="chart-line" style="width:80%; max-width:700px; height:400px; margin:40px auto;"></div>
+      <div id="chart-pie" style="width:80%; max-width:700px; height:400px; margin:40px auto;"></div>
+      <div id="chart-bar" style="width:80%; max-width:700px; height:400px; margin:40px auto;"></div>
     </div>
 
     <div class="botones">
       <button onclick="location.href='{{ url_for('index') }}'">Volver a la portada</button>
     </div>
-  </div>
+  </div>}
+  <script src="{{ url_for('static', filename='js/stats.js') }}"></script>
 </body>
 </html>
