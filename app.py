@@ -4,10 +4,12 @@ from sqlalchemy import text, func
 from config import Config
 from datetime import datetime
 import os
-from models import db, AvisoAdopcion, ContactarPor, Comuna, Foto   # Importamos la instancia de db desde models.py
+from models import db, AvisoAdopcion, ContactarPor, Comuna, Foto, Comentario
 from utils.validations import validate_aviso_form
 from werkzeug.utils import secure_filename
 import calendar
+from utils.validations import validate_aviso_form, validate_comentario_form
+from markupsafe import escape
 
 UPLOAD_FOLDER = 'static/uploads'
 
@@ -148,6 +150,54 @@ def avisos_por_mes_tipo():
         data[mes_nombre][tipo] = cantidad
 
     return jsonify(data)
+# Agregar nuevo comentario 
+@app.route('/api/comentarios', methods=['POST'])
+def agregar_comentario():
+    data = request.get_json()
+    valido, errores = validate_comentario_form(data)
+    if not valido:
+        return jsonify({"ok": False, "errores": errores}), 400
+
+    aviso_id = data.get("aviso_id")
+    if not AvisoAdopcion.query.get(aviso_id):
+        return jsonify({"ok": False, "errores": ["El aviso asociado no existe."]}), 400
+
+    nombre = escape(data["nombre"].strip())
+    texto = escape(data["texto"].strip())
+    nuevo_comentario = Comentario(nombre=nombre, texto=texto, aviso_id=aviso_id)
+    db.session.add(nuevo_comentario)
+    db.session.commit()
+
+    return jsonify({
+        "ok": True,
+        "mensaje": "Comentario agregado correctamente.",
+        "comentario": {
+            "nombre": nombre,
+            "texto": texto,
+            "fecha": nuevo_comentario.fecha.strftime("%Y-%m-%d %H:%M")
+        }
+    }), 201
+# Listar comentarios de un aviso 
+@app.route('/api/comentarios/<int:aviso_id>', methods=['GET'])
+def obtener_comentarios(aviso_id):
+    aviso = AvisoAdopcion.query.get_or_404(aviso_id)
+    comentarios = (
+        Comentario.query
+        .filter_by(aviso_id=aviso.id)
+        .order_by(Comentario.fecha.desc())
+        .all()
+    )
+    data = [
+        {
+            "id": c.id,
+            "nombre": c.nombre,
+            "texto": c.texto,
+            "fecha": c.fecha.strftime("%Y-%m-%d %H:%M")
+        }
+        for c in comentarios
+    ]
+    return jsonify(data)
+
 
 
 
