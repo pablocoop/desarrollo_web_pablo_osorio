@@ -38,7 +38,11 @@ class AvisoAdopcion(db.Model):
     comuna = db.relationship('Comuna', back_populates='avisos')
     fotos = db.relationship('Foto', back_populates='aviso', cascade='all, delete-orphan', foreign_keys='Foto.actividad_id')
     contactos = db.relationship('ContactarPor', back_populates='aviso', cascade='all, delete-orphan', foreign_keys='ContactarPor.actividad_id')
-
+    comentarios = db.relationship(
+        'Comentario',
+        back_populates='aviso',
+        cascade='all, delete-orphan'
+    )
 class Foto(db.Model):
     __tablename__ = 'foto'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -54,3 +58,15 @@ class ContactarPor(db.Model):
     nombre = db.Column(db.Enum('whatsapp', 'telegram', 'X', 'instagram', 'tiktok', 'otra', name='contacto_enum'), nullable=False)
     identificador = db.Column(db.String(150), nullable=False)
     aviso = db.relationship('AvisoAdopcion', back_populates='contactos')
+
+class Comentario(db.Model):
+    __tablename__ = 'comentario'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nombre = db.Column(db.String(80), nullable=False)
+    texto = db.Column(db.String(300), nullable=False)
+    fecha = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
+    aviso_id = db.Column(db.Integer, db.ForeignKey('aviso_adopcion.id'), nullable=False)
+
+    aviso = db.relationship('AvisoAdopcion', back_populates='comentarios')
+
