@@ -1,9 +1,9 @@
-# Tarea 2 - Desarrollo de Aplicaciones Web
+# Tarea 3 - Desarrollo de Aplicaciones Web
 
 Nombre: Pablo Osorio Navarro - Sección 2
 
 
-# Desarrollo Tarea 2
+# Desarrollo Tarea 3
 
 Este repositorio contiene los archivos necesarios para la implementación de una aplicación web desarrollada con Flask que permite listar y mostrar detalles de publicaciones relacionadas con la adopción de mascotas. La aplicación utiliza SQLAlchemy como ORM para la gestión de la base de datos en MySQL, y Jinja2 como motor de plantillas para la renderización dinámica del contenido HTML.
 
@@ -65,3 +65,15 @@ CREATE DATABASE tarea2 CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 "C:\Program Files\MySQL\MySQL Server 8.4\bin\mysql.exe" --default-character-set=utf8mb4 -u cc5002 -p tarea2 < "C:\Users\pablo\OneDrive\Documentos\CC5002\desarrollo_web_pablo_osorio\region-comuna.sql"
 ```
 De esta forma, MySQL interpreta correctamente los caracteres especiales y la importación se realiza sin errores de codificación.
+
+## Importación de comentarios de avisos para la tarea 3
+
+En primer lugar, se debe agregar la tabla `comentario` a la base de datos. Para ello, se debe importar el archivo `tabla-comentario.sql` con codificación UTF-8, de la misma forma que se hizo con los archivos anteriores:
+
+Se procede a importar el archivo con el siguiente comando en CMD:
+
+```bash
+"C:\Program Files\MySQL\MySQL Server 8.4\bin\mysql.exe" --default-character-set=utf8mb4 -u cc5002 -p tarea2 < "C:\Users\pablo\OneDrive\Documentos\CC5002\desarrollo_web_pablo_osorio\tabla-comentario.sql"
+```
+
+De esta forma, se crea la tabla `comentario` en la base de datos `tarea2`, permitiendo almacenar los comentarios asociados a los avisos de adopción.
