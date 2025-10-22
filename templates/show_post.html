@@ -45,12 +45,45 @@
       <img id="foto-ampliada" class="modal-content" src="placeholder" alt="Foto ampliada de la mascota">
       <button id="btn-cerrar" onclick="cerrarFoto()">Cerrar</button>
     </div>
-    
+
+    <div id="seccion-comentarios" style="margin-top: 40px;">
+      <h2> Sección de comentarios</h2>
+      <div id="mensaje-exito" class="alert success" style="display:none;"></div>
+      <!-- Errores -->
+      <div id="errores-comentario" class="alert error" style="display:none;"></div>
+
+      
+      <!-- Formulario para nuevo comentario -->
+      <h3>Agregar un nuevo comentario</h3>
+      <form id="form-comentario" class="form-comentario">
+        <div class="campo-form">
+          <label for="nombre">Nombre:</label>
+          <input type="text" id="nombre" name="nombre" maxlength="80" required>
+        </div>
+        <div class="campo-form">
+          <label for="texto">Comentario:</label>
+          <textarea id="texto" name="texto" rows="3" maxlength="300" required></textarea>
+        </div>
+        <button type="submit">Agregar comentario</button>
+      </form>
+      <!-- Listado dinámico de comentarios -->
+      <div id="lista-comentarios" style="margin-bottom: 25px;">
+        <p>Cargando comentarios...</p>
+      </div>
+
+    </div>    
     <div class="botones">
       <button onclick="location.href='{{ url_for('listado') }}'">Volver al listado</button>
       <button onclick="location.href='{{ url_for('index') }}'">Volver a la portada</button>
     </div>
   </div>
   <script src="{{ url_for('static', filename='js/photo.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/comments.js') }}"></script>
+  <script>
+      // Inicializar comentarios al cargar la página
+      document.addEventListener("DOMContentLoaded", () => {
+        initComments({{ aviso.id }});
+      });
+  </script>
 </body>
 </html>
