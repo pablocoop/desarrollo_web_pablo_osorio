@@ -43,6 +43,20 @@ def validate_fotos(files) -> bool:
 
 def validate_region_comuna(region, comuna) -> bool:
     return bool(region and comuna)
+def validate_comentario_form(data):
+    errores = []
+    nombre = data.get("nombre", "").strip()
+    texto = data.get("texto", "").strip()
+    aviso_id = data.get("aviso_id")
+
+    if not (3 <= len(nombre) <= 80):
+        errores.append("El nombre debe tener entre 3 y 80 caracteres.")
+    if len(texto) < 5:
+        errores.append("El comentario debe tener al menos 5 caracteres.")
+    if not aviso_id:
+        errores.append("Falta el ID del aviso asociado.")
+
+    return len(errores) == 0, errores
 
 # Validación global
 def validate_aviso_form(data, files):
