@@ -9,7 +9,6 @@ from utils.validations import validate_aviso_form
 from werkzeug.utils import secure_filename
 import calendar
 from utils.validations import validate_aviso_form, validate_comentario_form
-from markupsafe import escape
 
 UPLOAD_FOLDER = 'static/uploads'
 
@@ -162,8 +161,8 @@ def agregar_comentario():
     if not AvisoAdopcion.query.get(aviso_id):
         return jsonify({"ok": False, "errores": ["El aviso asociado no existe."]}), 400
 
-    nombre = escape(data["nombre"].strip())
-    texto = escape(data["texto"].strip())
+    nombre = data["nombre"].strip()
+    texto = data["texto"].strip()
     nuevo_comentario = Comentario(nombre=nombre, texto=texto, aviso_id=aviso_id)
     db.session.add(nuevo_comentario)
     db.session.commit()

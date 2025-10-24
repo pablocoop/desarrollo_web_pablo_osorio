@@ -43,16 +43,35 @@ def validate_fotos(files) -> bool:
 
 def validate_region_comuna(region, comuna) -> bool:
     return bool(region and comuna)
+
+def validate_comentario_nombre(nombre: str) -> bool:
+    """Valida que el nombre no contenga HTML o caracteres peligrosos"""
+    if not nombre or not (3 <= len(nombre.strip()) <= 80):
+        return False
+    # Rechazar si contiene < > para prevenir HTML/scripts
+    if re.search(r'[<>]', nombre):
+        return False
+    return True
+
+def validate_comentario_texto(texto: str) -> bool:
+    """Valida que el texto no contenga HTML o scripts maliciosos"""
+    if not texto or len(texto.strip()) < 5:
+        return False
+    # Rechazar si contiene etiquetas HTML o scripts
+    if re.search(r'<[^>]*>', texto):
+        return False
+    return True
+
 def validate_comentario_form(data):
     errores = []
     nombre = data.get("nombre", "").strip()
     texto = data.get("texto", "").strip()
     aviso_id = data.get("aviso_id")
 
-    if not (3 <= len(nombre) <= 80):
-        errores.append("El nombre debe tener entre 3 y 80 caracteres.")
-    if len(texto) < 5:
-        errores.append("El comentario debe tener al menos 5 caracteres.")
+    if not validate_comentario_nombre(nombre):
+        errores.append("El nombre debe tener entre 3 y 80 caracteres y no puede contener HTML.")
+    if not validate_comentario_texto(texto):
+        errores.append("El comentario debe tener al menos 5 caracteres y no puede contener HTML.")
     if not aviso_id:
         errores.append("Falta el ID del aviso asociado.")
 

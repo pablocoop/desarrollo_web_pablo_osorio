@@ -1,8 +1,9 @@
 function initComments(avisoId) {
   const lista = document.getElementById("lista-comentarios");
-  const form = document.getElementById("comentarioForm");
+  const form = document.getElementById("form-comentario");
   const erroresBox = document.getElementById("errores-comentario");
   const exitoBox = document.getElementById("mensaje-exito");
+  
   function renderComentarios(comentarios) {
     lista.innerHTML = "";
 
@@ -56,23 +57,28 @@ function initComments(avisoId) {
 
   //  Envío del formulario 
   form.addEventListener("submit", e => {
-    e.preventDefault();
+    e.preventDefault(); // Prevenir envío automático
+    
+    // Limpiar mensajes previos
     erroresBox.style.display = "none";
     erroresBox.innerHTML = "";
+    exitoBox.style.display = "none";
 
     const nombre = document.getElementById("nombre").value.trim();
     const texto = document.getElementById("texto").value.trim();
 
     const errores = validarComentario(nombre, texto);
     if (errores.length > 0) {
+      erroresBox.style.display = "block";
       errores.forEach(msg => {
         const li = document.createElement("li");
         li.textContent = msg;
         erroresBox.appendChild(li);
       });
-      return;
+      return; // Detener ejecución si hay errores
     }
 
+    // Si pasa validación, enviar al servidor
     fetch("/api/comentarios", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -81,6 +87,7 @@ function initComments(avisoId) {
       .then(async res => {
         const data = await res.json();
         if (!res.ok) {
+          erroresBox.style.display = "block";
           (data.errores || ["Error al enviar el comentario."]).forEach(msg => {
             const li = document.createElement("li");
             li.textContent = msg;
@@ -88,16 +95,16 @@ function initComments(avisoId) {
           });
           throw new Error("Error al guardar comentario");
         }
-        // refrescar lista
+        // Éxito: limpiar formulario y mostrar mensaje
         form.reset();
-        // Mostrar mensaje de éxito
         exitoBox.textContent = "Comentario agregado correctamente.";
         exitoBox.style.display = "block";
 
         // Ocultar mensaje después de 3 segundos
         setTimeout(() => {
-        exitoBox.style.display = "none";
+          exitoBox.style.display = "none";
         }, 3000);
+        
         return fetch(`/api/comentarios/${avisoId}`);
       })
       .then(res => res.json())
