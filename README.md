@@ -124,4 +124,6 @@ INSERT INTO nota (aviso_id, nota) VALUES
 
 # Decisiones de diseño
 
-- Se creó una base de datos nueva (`tarea4`) para simplificar la estructura y evitar dependencias innecesarias.
+A continuación se detallan las principales decisiones de diseño tomadas durante el desarrollo de esta tarea:
+
+1. Creación de una nueva base de datos (tarea4) simplificada

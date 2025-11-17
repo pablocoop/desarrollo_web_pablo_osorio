@@ -21,13 +21,14 @@ public class AvisoAdopcion {
     private Integer cantidad;
 
     @Column(nullable = false, length = 20)
-    private String tipo;  // perro o gato
+    private String tipo;  
 
     @Column(nullable = false)
     private Integer edad;
 
-    @Column(nullable = false)
-    private String comuna;
+    @ManyToOne
+    @JoinColumn(name = "comuna_id", nullable = false)
+    private Comuna comuna;
 
     @Transient
     private Double promedio;
@@ -56,9 +57,9 @@ public class AvisoAdopcion {
     public Integer getEdad() { return edad; }
     public void setEdad(Integer edad) { this.edad = edad; }
 
-    public String getComuna() { return comuna; }
-    public void setComuna(String comuna) { this.comuna = comuna; }
-
+    public Comuna getComuna() { return comuna; }
+    public void setComuna(Comuna comuna) { this.comuna = comuna; }
+    
     public Double getPromedio() { return promedio; }
     public void setPromedio(Double promedio) { this.promedio = promedio; }
 }

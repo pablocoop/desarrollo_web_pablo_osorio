@@ -33,7 +33,7 @@
             <td th:text="${aviso.cantidad}"></td>
             <td th:text="${aviso.tipo}"></td>
             <td th:text="${aviso.edad}"></td>
-            <td th:text="${aviso.comuna}"></td>
+            <td th:text="${aviso.comuna.nombre}"></td>
 
             <td class="promedio"
                 th:text="${aviso.promedio != null ? #numbers.formatDecimal(aviso.promedio, 1, 2, 'POINT') : '-'}">
