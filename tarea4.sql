@@ -1,5 +1,5 @@
 
---   CREACIÓN DE BASE DE DATOS TAREA 4
+--   CREACIÓN DE BASE DE DATOS TAREA 4 (DEPRECATED)
 
 -- 1. Crear la base de datos nueva
 CREATE DATABASE tarea4
