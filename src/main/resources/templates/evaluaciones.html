@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+<div th:fragment="tabla-evaluaciones" class="container">
+
+    <div class="encabezado">
+        <h2>Evaluación de Avisos de Adopción</h2>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Fecha ingreso</th>
+            <th>Sector</th>
+            <th>Cantidad</th>
+            <th>Tipo</th>
+            <th>Edad</th>
+            <th>Comuna</th>
+            <th>Promedio</th>
+            <th>Evaluar</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="aviso : ${avisos}">
+            <td th:text="${aviso.id}"></td>
+            <td th:text="${#temporals.format(aviso.fechaIngreso, 'yyyy-MM-dd HH:mm')}"></td>
+            <td th:text="${aviso.sector}"></td>
+            <td th:text="${aviso.cantidad}"></td>
+            <td th:text="${aviso.tipo}"></td>
+            <td th:text="${aviso.edad}"></td>
+            <td th:text="${aviso.comuna}"></td>
+
+            <td class="promedio"
+                th:text="${aviso.promedio != null ? #numbers.formatDecimal(aviso.promedio, 1, 2, 'POINT') : '-'}">
+            </td>
+
+            <td>
+                <button class="btn-evaluar"
+                        th:data-id="${aviso.id}">
+                    Evaluar
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div id="modal-evaluar" class="modal-evaluar">
+        <div class="modal-content-evaluar">
+
+            <h3>Seleccionar Nota</h3>
+
+            <!-- Botones de notas -->
+            <div id="nota-selector" class="nota-selector">
+                <button class="btn-nota" data-value="1">1</button>
+                <button class="btn-nota" data-value="2">2</button>
+                <button class="btn-nota" data-value="3">3</button>
+                <button class="btn-nota" data-value="4">4</button>
+                <button class="btn-nota" data-value="5">5</button>
+                <button class="btn-nota" data-value="6">6</button>
+                <button class="btn-nota" data-value="7">7</button>
+            </div>
+
+            <div class="modal-buttons">
+                <button id="btn-cancelar-nota" class="cancelar">Cancelar</button>
+                <button id="btn-guardar-nota">Evaluar</button>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,168 @@
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #e7fffb;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  background: #f5fbff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.titulo h1, h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  background-color: transparent;
+}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 16px;
+  font-size: 16px;
+  text-align: left;
+}
+
+td {
+  background-color: #ffffff;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: none;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  vertical-align: middle;
+}
+
+tr:hover td {
+  background-color: #eefcf3;
+}
+
+.btn-evaluar {
+  padding: 8px 14px;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-evaluar:hover {
+  background-color: #45a049;
+}
+
+.encabezado {
+  background-color: #eafaf1;
+  border: 2px solid #c2ebcd;
+  border-radius: 10px;
+  padding: 25px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 1.15rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.modal-evaluar {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.45);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content-evaluar {
+  background: white;
+  padding: 25px;
+  width: 320px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+.modal-content-evaluar h3 {
+  margin-top: 0;
+}
+
+.modal-content-evaluar select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+}
+
+.modal-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-buttons button {
+  padding: 10px 15px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+#btn-guardar-nota {
+  background-color: #4CAF50;
+  color: white;
+}
+
+#btn-guardar-nota:hover {
+  background-color: #45a049;
+}
+
+.cancelar {
+  background-color: #ccc;
+}
+
+.cancelar:hover {
+  background-color: #b3b3b3;
+}
+
+.nota-selector {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+.btn-nota {
+  width: 40px;
+  height: 40px;
+  background-color: #e6e6e6;
+  border: none;
+  border-radius: 6px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-nota:hover {
+  background-color: #d5d5d5;
+}
+
+.btn-nota.selected {
+  background-color: #4CAF50;
+  color: white;
+  transform: scale(1.1);
+}
