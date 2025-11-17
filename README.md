@@ -1,9 +1,9 @@
-# Tarea 3 - Desarrollo de Aplicaciones Web
+# Tarea 4 - Desarrollo de Aplicaciones Web
 
 Nombre: Pablo Osorio Navarro - Sección 2
 
 
-# Desarrollo Tarea 3
+# Desarrollo Tarea 4
 
 Este repositorio contiene los archivos necesarios para la implementación de una aplicación web desarrollada con Flask que permite listar y mostrar detalles de publicaciones relacionadas con la adopción de mascotas. La aplicación utiliza SQLAlchemy como ORM para la gestión de la base de datos en MySQL, y Jinja2 como motor de plantillas para la renderización dinámica del contenido HTML.
 
