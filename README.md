@@ -22,7 +22,8 @@ La estructura del proyecto sigue el patrón MVC usado el curso:
 
 # Estructura del Proyecto
 
-src/main/java/com/petadopt/Tarea4/
+```
+src/main/java/com/petadopt/Tarea4/ 
 ├── controllers/
 │ ├── AppController.java
 │ └── NotaRestController.java
@@ -31,6 +32,7 @@ src/main/java/com/petadopt/Tarea4/
 ├── models/
 │ ├── AvisoAdopcion.java
 │ ├── AvisoAdopcionRepository.java
+│ ├── Comuna.java
 │ ├── Nota.java
 │ ├── NotaRepository.java
 │ └── NotaRequest.java
@@ -43,87 +45,36 @@ src/main/resources/
 └── static/
 ├── css/style.css
 └── js/app.js
-
-
----
-
-# Base de Datos utilizada
-
-Aunque el enunciado entregaba un archivo `tabla-notas.sql` basado en la base de datos **tarea2**, en esta tarea **solo se requieren dos tablas simples**:
-
-- `aviso_adopcion`
-- `nota` (relacionada a `aviso_adopcion` mediante FK)
-
-Para simplificar la implementación y evitar arrastrar la complejidad de Tarea 2, se decidió:
-
-> **Crear una nueva base de datos llamada `tarea4`**,  
-> **basada en la estructura mínima necesaria para esta tarea.**
-
-Esto permite cumplir el enunciado de manera más limpia, ordenada y coherente.
-
----
-
-# Script SQL utilizado (tarea4.sql)
-
-
-
-```sql
-
---   CREACIÓN DE BASE DE DATOS TAREA 4
-
--- 1. Crear la base de datos nueva
-CREATE DATABASE tarea4
-    CHARACTER SET utf8mb4
-    COLLATE utf8mb4_general_ci;
-
--- 2. Seleccionar la base de datos
-USE tarea4;
-
---   TABLA: aviso_adopcion
-CREATE TABLE aviso_adopcion (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    fecha_ingreso DATETIME NOT NULL,
-    sector VARCHAR(100),
-    cantidad INT NOT NULL,
-    tipo VARCHAR(20) NOT NULL,   
-    edad INT NOT NULL,          
-    comuna VARCHAR(255)          
-);
-
---   TABLA: nota
-CREATE TABLE IF NOT EXISTS `tarea4`.`nota` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `aviso_id` INT NOT NULL,
-  `nota` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_nota_aviso1_idx` (`aviso_id` ASC),
-  CONSTRAINT `fk_nota_aviso1`
-    FOREIGN KEY (`aviso_id`)
-    REFERENCES `tarea4`.`aviso_adopcion` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION
-)
-ENGINE = InnoDB;
-
---   INSERTS DE PRUEBA 
-INSERT INTO aviso_adopcion (fecha_ingreso, sector, cantidad, tipo, edad, comuna)
-VALUES
-    (NOW(), 'Gral. Urrutia #398', 2, 'perro', 3, 'Pucón'),
-    (NOW(), 'Segunda Faja, Río Baker #1556 ', 1, 'gato', 1, 'Villarrica'),
-    (NOW(), 'Porto Seguro #355', 4, 'perro', 2, 'Estación Central'),
-    (NOW(), 'Camilo Henríquez #404', 1, 'perro', 4, 'Villarrica');
-
--- Notas de ejemplo
-INSERT INTO nota (aviso_id, nota) VALUES
-    (1, 5),
-    (1, 7),
-    (2, 5),
-    (3, 4),
-    (3, 5);
 ```
 
 # Decisiones de diseño
 
 A continuación se detallan las principales decisiones de diseño tomadas durante el desarrollo de esta tarea:
 
-1. Creación de una nueva base de datos (tarea4) simplificada
+1. **Implementación de un modal interactivo para ingresar notas**
+
+    El enunciado exige registrar notas mediante llamadas asíncronas (AJAX) al backend. Aunque una solución básica mediante `prompt()` habría sido suficiente, se optó por implementar una interfaz más clara y profesional:
+
+    - Se creó un **modal personalizado** que aparece al presionar *"Evaluar"*.
+    - El modal muestra **botones del 1 al 7**, permitiendo elegir la nota con un clic en lugar de escribirla manualmente.
+    - La nota seleccionada se destaca en **verde**, mejorando la experiencia visual.
+    - Al confirmar, la nota se envía mediante **fetch()** al backend y el promedio se actualiza dinámicamente sin recargar la página.
+
+    Esta decisión mejora significativamente la usabilidad, evita errores de entrada y mantiene una interacción moderna sin agregar complejidad innecesaria al backend.
+
+---
+
+2. **Cálculo de promedios en el Service mediante un atributo `@Transient`**
+
+    El promedio de notas no se almacena en la base de datos. En cambio:
+
+    - Se calcula dinámicamente desde el **Service**, mediante una consulta agregada.
+    - Se almacena temporalmente en un campo `@Transient` del modelo `AvisoAdopcion`.
+    - La vista muestra **“–”** cuando no existen notas asociadas.
+
+    Esto evita redundancia de datos, respeta la responsabilidad de cada capa del proyecto y mantiene el modelo limpio.
+
+3. Simplificación del modelo `Comuna`
+    - Se creó una entidad `Comuna` para representar las comunas en la base de datos.
+    - La relación entre `AvisoAdopcion` y `Comuna` es de tipo **ManyToOne**.
+    - Esto permite acceder fácilmente al nombre de la comuna desde el aviso, mejorando la claridad del código y la integridad referencial.
