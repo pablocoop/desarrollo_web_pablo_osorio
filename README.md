@@ -53,7 +53,7 @@ A continuación se detallan las principales decisiones de diseño tomadas durant
 
 1. **Implementación de un modal interactivo para ingresar notas**
 
-    El enunciado exige registrar notas mediante llamadas asíncronas (AJAX) al backend. Aunque una solución básica mediante `prompt()` habría sido suficiente, se optó por implementar una interfaz más clara y profesional:
+    El enunciado exige registrar notas mediante llamadas asíncronas al backend. Aunque una solución básica mediante `prompt()` habría sido suficiente, se optó por implementar una interfaz que favoreciera la experiencia del usuario (UX, gracias Ingeniería de Software):
 
     - Se creó un **modal personalizado** que aparece al presionar *"Evaluar"*.
     - El modal muestra **botones del 1 al 7**, permitiendo elegir la nota con un clic en lugar de escribirla manualmente.
@@ -62,7 +62,6 @@ A continuación se detallan las principales decisiones de diseño tomadas durant
 
     Esta decisión mejora significativamente la usabilidad, evita errores de entrada y mantiene una interacción moderna sin agregar complejidad innecesaria al backend.
 
----
 
 2. **Cálculo de promedios en el Service mediante un atributo `@Transient`**
 
@@ -72,7 +71,7 @@ A continuación se detallan las principales decisiones de diseño tomadas durant
     - Se almacena temporalmente en un campo `@Transient` del modelo `AvisoAdopcion`.
     - La vista muestra **“–”** cuando no existen notas asociadas.
 
-    Esto evita redundancia de datos, respeta la responsabilidad de cada capa del proyecto y mantiene el modelo limpio.
+    Esto evita redundancia de datos y respeta lo pedido en el enunciado.
 
 3. Simplificación del modelo `Comuna`
     - Se creó una entidad `Comuna` para representar las comunas en la base de datos.
